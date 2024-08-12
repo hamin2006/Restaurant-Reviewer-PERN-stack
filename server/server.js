@@ -44,15 +44,42 @@ app.get("/api/v1/restaurants/:id", async (req,res) => {
     }
 });
 
-app.post("/api/v1/restaurants", (req,res) => {
+app.post("/api/v1/restaurants", async (req,res) => {
     //Create a restaurant
+    try {
+        const results = await db.query(
+            "INSERT INTO restaurants (name, location, price_range) values ($1, $2, $3) returning *", 
+            [req.body.name, req.body.location, req.body.price]);
+        res.status(201).json({
+            status: "success",
+            data: {
+                restaurants: results.rows[0],
+            }
+        });
+    } catch (e) {
+        console.log(e);
+    }
 });
 
-app.put("/api/v1/restaurants/:id", (req,res) => {
+app.put("/api/v1/restaurants/:id", async (req,res) => {
     //Update a restaurant
+    try {
+        const results = await db.query(
+            "UPDATE restaurants SET name = $1, location = $2, price_range = $3 where id = $4 returning *", 
+            [req.body.name, req.body.location, req.body.price, req.params.id]);
+        res.status(201).json({
+            status: "success",
+            data: {
+                restaurants: results.rows[0],
+            }
+        });
+    } catch (e) {
+        console.log(e);
+    }
 });
 
 app.delete("/api/v1/restaurants/:id", (req,res) => {
     //Delete a restaurant
+    
 });
 
