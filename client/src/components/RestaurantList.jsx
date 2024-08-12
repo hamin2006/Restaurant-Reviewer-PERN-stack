@@ -17,18 +17,11 @@ const RestaurantList = () => {
         <tbody>
             <tr>
                 <td>Tim Hortons</td>
-                <td>New York</td>
+                <td>Calgary</td>
                 <td>$$</td>
-            </tr>
-            <tr>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+                <td>Rating</td>
+                <td><button className="btn btn-warning">Update</button></td>
+                <td><button className="btn btn-warning">Delete</button></td>
             </tr>
         </tbody>
       </table>
