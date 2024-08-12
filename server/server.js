@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const db = require("./db");
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT;
 
 app.use(express.json());
 
@@ -25,12 +25,23 @@ app.get("/api/v1/restaurants", async (req,res) => {
     } catch (e) {
         console.log(e);
     }
-    
+
 
 });
 
-app.get("/api/v1/restaurants/:id", (req,res) => {
+app.get("/api/v1/restaurants/:id", async (req,res) => {
     //Return single restaurant from postgres using id
+    try {
+        const results = await db.query("select * from restaurants where id = $1", [req.params.id]);
+        res.status(200).json({
+            status: "success",
+            data: {
+                restaurants: results.rows[0]
+            },
+        });
+    } catch (e) {
+        console.log(e);
+    }
 });
 
 app.post("/api/v1/restaurants", (req,res) => {
