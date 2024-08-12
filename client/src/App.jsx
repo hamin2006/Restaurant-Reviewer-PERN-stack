@@ -3,18 +3,21 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from './routes/Home';
 import UpdatePage from './routes/UpdatePage';
 import RestaurantDetails from './routes/RestaurantDetails';
+import { RestaurantsContextProvider } from './contextAPI/RestaurantsContext';
 
 const App = () => {
     return (
-    <div>
-        <Router>
-            <Switch>
-                <Route exact path = "/" component = {Home}/>
-                <Route exact path = "/restaurants/:id/update" component = {UpdatePage}/>
-                <Route exact path = "/restaurants/:id" component = {RestaurantDetails}/>
-            </Switch>
-        </Router>
-    </div>
+        <RestaurantsContextProvider>
+            <div className='container'>
+                <Router>
+                    <Switch>
+                        <Route exact path = "/" component = {Home}/>
+                        <Route exact path = "/restaurants/:id/update" component = {UpdatePage}/>
+                        <Route exact path = "/restaurants/:id" component = {RestaurantDetails}/>
+                    </Switch>
+                </Router>
+            </div>
+        </RestaurantsContextProvider>
     );
 }
 
