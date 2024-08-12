@@ -11,10 +11,10 @@ const AddRestaurant = () => {
         e.preventDefault();
         try {
             const res = await RestaurantFinder.post("/", {name,location,price});
+            addRestaurants(res.data.data.restaurant);
         } catch(e) {
 
         }
-        addRestaurants(res.data.data);
     }
   return (
     <div class = "mb-4">
