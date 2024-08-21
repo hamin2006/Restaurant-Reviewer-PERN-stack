@@ -35,10 +35,12 @@ app.get("/api/v1/restaurants/:id", async (req,res) => {
     //Return single restaurant from postgres using id
     try {
         const results = await db.query("select * from restaurants where id = $1", [req.params.id]);
+        const reviews = await db.query("select * from reviews where res_id = $1", [req.params.id]);
         res.status(200).json({
             status: "success",
             data: {
-                restaurants: results.rows[0]
+                restaurants: results.rows[0],
+                reviews: reviews.rows
             },
         });
     } catch (e) {
