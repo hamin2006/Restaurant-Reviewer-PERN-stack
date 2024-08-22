@@ -16,7 +16,8 @@ app.listen(port, () => {
 app.get("/api/v1/restaurants", async (req,res) => {
     //Return list of restaurants from postgres
     try {
-        const results = await db.query("select * from restaurants");
+        const results = await db.query("select * from restaurants left join (select res_id, COUNT(*), TRUNC(AVG(rating),1) " + 
+            "as average_rating from reviews group by res_id) reviews on restaurants.id = reviews.res_id");
         res.status(200).json({
             status: "success",
             results: results.rows.length,
@@ -34,7 +35,8 @@ app.get("/api/v1/restaurants", async (req,res) => {
 app.get("/api/v1/restaurants/:id", async (req,res) => {
     //Return single restaurant from postgres using id
     try {
-        const results = await db.query("select * from restaurants where id = $1", [req.params.id]);
+        const results = await db.query("select * from restaurants left join (select res_id, COUNT(*), TRUNC(AVG(rating),1) as average_rating from reviews group by res_id) reviews on restaurants.id = reviews.res_id where id = $1", 
+            [req.params.id]);
         const reviews = await db.query("select * from reviews where res_id = $1", [req.params.id]);
         res.status(200).json({
             status: "success",
