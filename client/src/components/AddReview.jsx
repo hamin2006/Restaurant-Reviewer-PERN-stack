@@ -1,12 +1,27 @@
 import React, { useState } from 'react'
+import RestaurantFinder from '../contextAPI/RestaurantFinder';
+import { useHistory, useLocation, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
 const AddReview = () => {
+    const {id} = useParams();
+    const history = useHistory();
+    const location = useLocation();
     const[name,setName] = useState("");
     const[review,setReview] = useState("");
     const[rating,setRating] = useState("Rating");
     
-    const sendReview = async() => {
-        
+    const sendReview = async(e) => {
+        e.preventDefault();
+        try {
+            const results = await RestaurantFinder.post("/"+id+"/addReview", {
+                name,
+                review,
+                rating
+            });
+            window.location.reload();
+        } catch (e) {
+
+        }
     };
 
   return (

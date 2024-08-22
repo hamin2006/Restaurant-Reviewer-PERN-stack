@@ -2,6 +2,7 @@ import React from 'react'
 import Stars from './Stars'
 
 const Reviews = ({reviews}) => {
+    
   return (
     <div className='row row-cols-3 mb-2'>
         {reviews.map((review) => {
